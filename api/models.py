@@ -23,6 +23,7 @@ class CreateUser(BaseModel):
     name: str
     surname: str
     email: EmailStr
+    password: str
 
     # @validator('name')
     # def validator_name(cls, value):
@@ -45,3 +46,8 @@ class UpdateUserRequest(BaseModel):
     name: Optional[constr(min_length=1)]
     surname: Optional[constr(min_length=1)]
     email: Optional[EmailStr]
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

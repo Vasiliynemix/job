@@ -15,6 +15,7 @@ from api.models import UpdatedUserResponse
 from api.models import UpdateUserRequest
 from db.base_logic import UserLogic
 from db.session import get_db
+from hashing import Hasher
 
 logger = getLogger(__name__)
 
@@ -26,7 +27,10 @@ async def _create_new_user(body: CreateUser, db) -> ShowUser:
         async with session.begin():
             user_logic = UserLogic(session)
             user = await user_logic.create_user(
-                name=body.name, surname=body.surname, email=body.email
+                name=body.name,
+                surname=body.surname,
+                email=body.email,
+                hashed_password=Hasher.get_password_hash(body.password),
             )
             return ShowUser(
                 user_id=user.user_id,
