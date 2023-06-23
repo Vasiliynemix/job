@@ -1,11 +1,14 @@
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from alembic import context
-
-from settings import DB_PASS, DB_NAME, DB_USER, DB_PORT, DB_HOST
+from settings import DB_HOST
+from settings import DB_NAME
+from settings import DB_PASS
+from settings import DB_PORT
+from settings import DB_USER
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -25,7 +28,8 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from user.models import Base
+from db.models import Base
+
 target_metadata = Base.metadata
 # target_metadata = None
 
@@ -73,9 +77,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

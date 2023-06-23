@@ -1,8 +1,6 @@
 alembic init migrations
 
-
 from myapp import mymodel
-
 
 alembic revision --autogenerate -m 'comment'
 

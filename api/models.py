@@ -1,7 +1,9 @@
 import uuid
 from typing import Optional
 
-from pydantic import BaseModel, EmailStr, constr
+from pydantic import BaseModel
+from pydantic import constr
+from pydantic import EmailStr
 
 
 class TunedModel(BaseModel):
