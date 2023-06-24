@@ -17,7 +17,9 @@ async def _create_new_user(body: CreateUser, session) -> ShowUser:
             surname=body.surname,
             email=body.email,
             hashed_password=Hasher.get_password_hash(body.password),
-            roles=body.roles,
+            roles=[
+                PortalRole.ROLE_PORTAL_USER,
+            ],
         )
         return ShowUser(
             user_id=user.user_id,
@@ -55,7 +57,11 @@ async def _get_user_by_id(user_id, session) -> Union[User, None]:
 
 
 def check_user_permission(target_user: User, current_user: User) -> bool:
-    print(target_user.user_id)
+    if (
+        target_user.user_id == current_user.user_id
+        and PortalRole.ROLE_PORTAL_SUPERADMIN in current_user.roles
+    ):
+        return False
     if target_user.user_id != current_user.user_id:
         # check admin role
         if not {

@@ -5,8 +5,6 @@ from pydantic import BaseModel
 from pydantic import constr
 from pydantic import EmailStr
 
-from db.base_logic import PortalRole
-
 
 class TunedModel(BaseModel):
     class Config:
@@ -26,7 +24,6 @@ class CreateUser(BaseModel):
     surname: str
     email: EmailStr
     password: str
-    roles: list[PortalRole]
 
     # @validator('name')
     # def validator_name(cls, value):
