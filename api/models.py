@@ -19,7 +19,6 @@ class ShowUser(TunedModel):
     surname: str
     email: EmailStr
     is_active: bool
-    roles: list[PortalRole]
 
 
 class CreateUser(BaseModel):

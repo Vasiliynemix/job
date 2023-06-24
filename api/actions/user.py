@@ -46,19 +46,12 @@ async def _update_user(
         return updated_user_id
 
 
-async def _get_user_by_id(user_id, session) -> Union[ShowUser, None]:
+async def _get_user_by_id(user_id, session) -> Union[User, None]:
     async with session.begin():
         user_logic = UserLogic(session)
         user = await user_logic.get_user_by_id(user_id=user_id)
         if user is not None:
-            return ShowUser(
-                user_id=user.user_id,
-                name=user.name,
-                surname=user.surname,
-                email=user.email,
-                is_active=user.is_active,
-                roles=user.roles,
-            )
+            return user
 
 
 def check_user_permission(target_user: User, current_user: User) -> bool:
