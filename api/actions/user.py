@@ -1,6 +1,8 @@
 from typing import Union
 from uuid import UUID
 
+from fastapi import HTTPException
+
 from api.models import CreateUser
 from api.models import ShowUser
 from db.base_logic import PortalRole
@@ -57,11 +59,10 @@ async def _get_user_by_id(user_id, session) -> Union[User, None]:
 
 
 def check_user_permission(target_user: User, current_user: User) -> bool:
-    if (
-        target_user.user_id == current_user.user_id
-        and PortalRole.ROLE_PORTAL_SUPERADMIN in current_user.roles
-    ):
-        return False
+    if PortalRole.ROLE_PORTAL_SUPERADMIN in current_user.user_id:
+        raise HTTPException(
+            status_code=406, detail="Superadmin cannot be deteted via API."
+        )
     if target_user.user_id != current_user.user_id:
         # check admin role
         if not {
